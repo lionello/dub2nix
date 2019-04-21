@@ -1,3 +1,4 @@
 dub2nix
 /.dub/
 /result
+/bin
