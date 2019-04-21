@@ -1,0 +1,14 @@
+{
+  "name": "dub2nix",
+  "authors": [
+    "Lionello Lunesu"
+  ],
+  "dependencies": {
+    "vibe-d:data": "*"
+  },
+  "description": "Create Nix derivations for Dub packages",
+  "targetPath": "./bin/",
+  "copyright": "Copyright © 2019, Lionello Lunesu",
+  "license": "proprietary",
+  "targetType": "executable"
+}
