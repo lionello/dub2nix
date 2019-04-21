@@ -28,7 +28,7 @@ version(none) {
 } else {
     import std.net.curl: get, HTTP;
     auto http = HTTP();
-    // Using gzip saves A LOT of traffic, ~40x
+    // Using deflate saves A LOT of traffic, ~40x
     http.addRequestHeader("accept-encoding", "deflate");
     http.addRequestHeader("accept", "application/json");
     const data = get(url, http);

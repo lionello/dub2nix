@@ -43,21 +43,22 @@ in {
   inherit fromDub;
 
   mkDubDerivation = lib.makeOverridable ({
-    src ? lib.cleanSource ./.,
+    src,
     buildInputs ? [],
-    deps ? import ./dub.selections.nix,
-    attrs ? {},
+    dubJSON ? src + "/dub.json",
+    selections ? src + "/dub.selections.nix",
+    deps ? import selections,
     passthru ? {},
-    dubJSON ? ./dub.json,
-    package ? lib.importJSON dubJSON
-  }: stdenv.mkDerivation (attrs // {
+    package ? lib.importJSON dubJSON,
+    version,
+    ...
+  } @ attrs: stdenv.mkDerivation (attrs // {
 
-    name = package.name;
+    pname = package.name;
 
     nativeBuildInputs = [ rdmd dmd dub ];
 
-    inherit buildInputs;
-    # buildInputs = buildInputs ++ deps;
+    inherit buildInputs version;
 
     passthru = passthru // {
       inherit dub dmd rdmd;
@@ -65,7 +66,7 @@ in {
 
     src = lib.cleanSourceWith {
       filter = filterDub;
-      inherit src;
+      src = lib.cleanSource src;
     };
 
     buildPhase = ''
@@ -82,6 +83,7 @@ in {
       runHook preCheck
 
       export HOME=$PWD
+      ${lib.concatMapStringsSep "\n" dub-add-local deps}
       dub test --combined --skip-registry=all
 
       runHook postCheck
@@ -96,8 +98,8 @@ in {
       runHook postInstall
     '';
 
-    # meta = {
-    #   description = (lib.hasAttr "description" dubJSON) .description;
-    # };
+    meta = lib.optionalAttrs (package ? description) {
+      description = package.description;
+    } // attrs.meta or {};
   }));
 }
