@@ -1,0 +1,3 @@
+name "dub2nix"
+targetType "executable"
+dependency "vibe-d:data" version="*"
