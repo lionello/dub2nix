@@ -1,2 +1,3 @@
 dub2nix
-.dub/
+/.dub/
+/result
