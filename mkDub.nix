@@ -14,20 +14,23 @@ let
   # Convert a GIT rev string (tag) to a simple semver version
   rev-to-version = builtins.replaceStrings ["v" "refs/tags/v"] ["" ""];
 
+  dep2src = dubDep: pkgs.fetchgit { inherit (dubDep.fetch) url rev sha256 fetchSubmodules; };
+
   # Fetch a dependency (source only for now)
   fromDub = dubDep: mkDerivation rec {
     name = "${src.name}-${version}";
     version = rev-to-version dubDep.fetch.rev;
     nativeBuildInputs = [ rdmd dmd dub ];
-    src = pkgs.fetchgit { inherit (dubDep.fetch) url rev sha256 fetchSubmodules; };
-    # buildPhase = ''
-    #   runHook preBuild
-    #   export HOME=$PWD
-    #   dub
-    #   runHook postBuild
-    # '';
+    src = dep2src dubDep;
 
-    # outputs = [ "src" "lib" ];
+    buildPhase = ''
+      runHook preBuild
+      export HOME=$PWD
+      dub build -b=release
+      runHook postBuild
+    '';
+
+    # outputs = [ "lib" ];
 
     # installPhase = ''
     #   runHook preInstall
@@ -38,6 +41,14 @@ let
 
   # Adds a local package directory (e.g. a git repository) to Dub
   dub-add-local = dubDep: "dub add-local ${(fromDub dubDep).src.outPath} ${rev-to-version dubDep.fetch.rev}";
+
+  # The target output of the Dub package
+  targetOf = package: "${package.targetPath or "."}/${package.targetName or package.name}";
+
+  # Remove reference to build tools and library sources
+  disallowedReferences = deps: [ dmd rdmd dub ] ++ builtins.map dep2src deps;
+
+  removeExpr = refs: ''remove-references-to ${lib.concatMapStrings (ref: " -t ${ref}") refs}'';
 
 in {
   inherit fromDub;
@@ -56,7 +67,8 @@ in {
 
     pname = package.name;
 
-    nativeBuildInputs = [ rdmd dmd dub ];
+    nativeBuildInputs = [ rdmd dmd dub pkgs.removeReferencesTo ];
+    disallowedReferences = disallowedReferences deps;
 
     inherit buildInputs version;
 
@@ -68,6 +80,10 @@ in {
       filter = filterDub;
       src = lib.cleanSource src;
     };
+
+    preFixup = ''
+      find $out/bin -type f -exec ${removeExpr (disallowedReferences deps)} '{}' + || true
+    '';
 
     buildPhase = ''
       runHook preBuild
@@ -93,7 +109,7 @@ in {
       runHook preInstall
 
       mkdir -p $out/bin
-      cp -r ${package.targetPath} $out
+      cp -r "${targetOf package}" $out/bin
 
       runHook postInstall
     '';

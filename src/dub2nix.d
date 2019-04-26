@@ -6,6 +6,8 @@
 +/
 import vibe.data.json, std.string;
 
+// enum mkDubNix = import("./mkDub.nix");
+
 struct DubSelections {
     int fileVersion;
     string[string] versions;
@@ -196,16 +198,17 @@ int main(string[] args) {
     string input = "./dub.selections.json", deps = "./dub.selections.nix";
     auto result = getopt(args,
         "input|i|in", "Path of selections JSON; defaults to " ~ input, &input,
+        // "output|o|out", "Output Nix file for Dub project; defaults to " ~ output, &output,
         "registry|r", "URL to Dub package registry; default " ~ packageRegistry, &packageRegistry,
-        "deps|d", "Output Nix file with dependencies; defaults to " ~ deps, &deps);
+        "deps-file|d", "Output Nix file with dependencies; defaults to " ~ deps, &deps);
 
-    if (result.helpWanted || args.length != 2) {
+    if (result.helpWanted || args.length != 2 || args[1] != "save") {
         defaultGetoptPrinter(`Usage: dub2nix [OPTIONS] COMMAND
 
-Create Nix derivations for Dub packages.
+Create Nix derivations for Dub package dependencies.
 
 Commands:
-  save      Write Nix files for Dub project
+  save         Write Nix files for Dub project
 
 Options:`, result.options);
         return 0;
