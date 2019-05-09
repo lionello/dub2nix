@@ -61,7 +61,6 @@ in {
     deps ? import selections,
     passthru ? {},
     package ? lib.importJSON dubJSON,
-    version,
     ...
   } @ attrs: stdenv.mkDerivation (attrs // {
 
@@ -70,7 +69,7 @@ in {
     nativeBuildInputs = [ rdmd dmd dub pkgs.removeReferencesTo ];
     disallowedReferences = disallowedReferences deps;
 
-    inherit buildInputs version;
+    inherit buildInputs;
 
     passthru = passthru // {
       inherit dub dmd rdmd;
@@ -117,5 +116,8 @@ in {
     meta = lib.optionalAttrs (package ? description) {
       description = package.description;
     } // attrs.meta or {};
+  } // lib.optionalAttrs (!(attrs ? version)) {
+    # Use name from dub.json, unless pname and version are specified
+    name = package.name;
   }));
 }
