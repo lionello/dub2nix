@@ -1,5 +1,6 @@
 {
   "name": "dub2nix",
+  "mainSourceFile": "src/dub2nix.d",
   "authors": [
     "Lionello Lunesu"
   ],
