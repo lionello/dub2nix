@@ -12,6 +12,20 @@ dub
 ```
 
 ## Usage
+```
+Usage: dub2nix [OPTIONS] COMMAND
+
+Create Nix derivations for Dub package dependencies.
+
+Commands:
+  save         Write Nix files for Dub project
+
+Options:
+-i     --input Path of selections JSON; defaults to ./dub.selections.json
+-r  --registry URL to Dub package registry; default http://code.dlang.org/packages/
+-d --deps-file Output Nix file with dependencies; defaults to ./dub.selections.nix
+-h      --help This help information.
+```
 First, use `dub build` to generate the `dub.selections.json` for your Dub project. 
 Then simply run `dub2nix save` to read the `dub.selections.json` in the current folder and write a new file `dub.selections.nix`.
 
