@@ -228,6 +228,7 @@ with (import ./mkDub.nix {});
 
 mkDubDerivation {
     src = ./.;
+    # buildInputs = [ add any native deps here ];
 }
 `);
         }
