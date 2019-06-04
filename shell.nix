@@ -1,8 +1,18 @@
-with (import <nixpkgs> {});
+{ pkgs ? import <nixpkgs> {} }:
+with pkgs;
 
-mkShell {
+let
+  pkg = import ./default.nix { inherit pkgs; };
+
+in mkShell {
+
   buildInputs = [
-    dmd dub rdmd nix-prefetch-git
-  ];
-}
+    # additional runtime dependencies go here
+  ] ++ pkg.buildInputs ++ pkg.propagatedBuildInputs;
 
+  nativeBuildInputs = [
+    # additional dev dependencies go here
+    nix-prefetch-git
+  ] ++ pkg.nativeBuildInputs;
+
+}

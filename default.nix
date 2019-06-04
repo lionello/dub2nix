@@ -1,2 +1,2 @@
-with import <nixpkgs> {};
-callPackage ./dub2nix.nix {}
+{ pkgs ? import <nixpkgs> {} }:
+pkgs.callPackage ./dub2nix.nix {}

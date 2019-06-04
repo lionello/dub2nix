@@ -72,7 +72,7 @@ in {
     inherit buildInputs;
 
     passthru = passthru // {
-      inherit dub dmd rdmd;
+      inherit dub dmd rdmd pkgs;
     };
 
     src = lib.cleanSourceWith {
