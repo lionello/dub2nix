@@ -228,7 +228,8 @@ with (import ./mkDub.nix {});
 
 mkDubDerivation {
     src = ./.;
-    # buildInputs = [ add any native deps here ];
+    # version = "0.0.1";
+    # buildInputs = [ add any runtime deps here ];
 }
 `);
         }
