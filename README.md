@@ -6,8 +6,15 @@ With Nix:
 ```sh
 nix-env -if https://github.com/lionello/dub2nix/archive/master.zip
 ```
-Or `git clone` and use `direnv` or `nix-shell` to build with `dub`:
+Or `git clone` and `nix-shell` to build with `dub`:
 ```sh
+nix-shell
+dub
+```
+Alternatively, use `direnv`:
+```sh
+echo use nix >> .envrc
+direnv allow
 dub
 ```
 
