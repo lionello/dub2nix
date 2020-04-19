@@ -1,5 +1,4 @@
-{ pkgs ? import <nixpkgs> {} }:
-with pkgs;
+with import <nixpkgs> {};
 
 let
   pkg = import ./default.nix { inherit pkgs; };
@@ -12,7 +11,6 @@ in mkShell {
 
   nativeBuildInputs = [
     # additional dev dependencies go here
-    nix-prefetch-git
   ] ++ pkg.nativeBuildInputs;
 
 }

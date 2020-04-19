@@ -55,7 +55,7 @@ in {
 
   mkDubDerivation = lib.makeOverridable ({
     src,
-    buildInputs ? [],
+    nativeBuildInputs ? [],
     dubJSON ? src + "/dub.json",
     selections ? src + "/dub.selections.nix",
     deps ? import selections,
@@ -66,10 +66,8 @@ in {
 
     pname = package.name;
 
-    nativeBuildInputs = [ rdmd dmd dub pkgs.removeReferencesTo ];
+    nativeBuildInputs = [ rdmd dmd dub pkgs.removeReferencesTo ] ++ nativeBuildInputs;
     disallowedReferences = disallowedReferences deps;
-
-    inherit buildInputs;
 
     passthru = passthru // {
       inherit dub dmd rdmd pkgs;
