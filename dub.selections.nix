@@ -7,6 +7,9 @@
     sha256 = "0s1caxqmq2497j5x8h06f44nr597h9zac8qxxml953lkaqkhbzgy";
     fetchSubmodules = false;
     date = "2019-03-24T14:45:15+01:00";
+    deepClone = false;
+    leaveDotGit = false;
+    path = "/nix/store/kz5g44dncvznlkm38a74cmm4qyl9nr6b-vibe.d";
   };
 } {
   fetch = {
@@ -16,5 +19,8 @@
     sha256 = "03av8zp5p6vf6fg005xbmwnjfw96jyrr4dcj4m56c4a3vx7v72pk";
     fetchSubmodules = false;
     date = "2018-12-23T13:54:22+01:00";
+    deepClone = false;
+    leaveDotGit = false;
+    path = "/nix/store/b3h25asfh205wzwjfzjf2k2kkccpp96k-stdx-allocator";
   };
 } ]
