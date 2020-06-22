@@ -60,6 +60,9 @@ struct NixPrefetchGit {
     string sha256;                  /// calculated by from nix-prefetch-git
     @optional bool fetchSubmodules; /// optional; defaults to true
     @optional string date;          /// ignored; fetchgit doesn't actually want this
+    @optional bool deepClone;       /// ignored
+    @optional bool leaveDotGit;     /// ignored; if the .git directory should be preserved
+    @optional string path;          /// ignored; a path in the Nix store?
 }
 
 /// Invoke nix-prefetch-git and return the parsed JSON
