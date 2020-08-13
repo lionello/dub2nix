@@ -11,6 +11,6 @@
   "description": "Create Nix derivations for Dub packages",
   "targetPath": "./bin/",
   "copyright": "Copyright © 2019, Lionello Lunesu",
-  "license": "proprietary",
+  "license": "MIT",
   "targetType": "executable"
 }
