@@ -10,7 +10,7 @@ mkDubDerivation {
     propagatedBuildInputs = [ pkgs.nix-prefetch-git ];
     meta = with pkgs.stdenv.lib; {
        homepage = "https://github.com/lionello/dub2nix";
-       maintainers = [ lib.maintainers.lionello ];
+       maintainers = [ maintainers.lionello ];
        license = licenses.mit;
     };
 }
