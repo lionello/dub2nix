@@ -24,3 +24,6 @@ jobs:
 
     - name: Install Nix
       uses: cachix/install-nix-action@v10
+      
+    - name: Build in shell
+      run: nix-shell --run "dub test"
