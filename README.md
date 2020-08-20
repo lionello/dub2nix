@@ -1,6 +1,8 @@
 # dub2nix
 CLI tool to create Nix expressions for D-lang Dub projects.
 
+![CI](https://github.com/lionello/dub2nix/workflows/CI/badge.svg)
+
 ## Installation
 With Nix:
 ```sh
