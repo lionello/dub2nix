@@ -3,11 +3,12 @@ with (import ./mkDub.nix {
     inherit pkgs;
 });
 mkDubDerivation {
-    src = ./.;
+    src = pkgs.lib.cleanSource ./.;
     # dubJSON = ./dub.json;
     # selections = ./dub.selections.nix;
     version = "0.2.3";
-    propagatedBuildInputs = [ pkgs.nix-prefetch-git ];
+    # doCheck = true;
+    propagatedBuildInputs = [ pkgs.nix-prefetch-git pkgs.cacert ];
     meta = with pkgs.stdenv.lib; {
        homepage = "https://github.com/lionello/dub2nix";
        maintainers = [ maintainers.lionello ];
