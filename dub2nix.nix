@@ -6,7 +6,7 @@ mkDubDerivation {
     src = ./.;
     # dubJSON = ./dub.json;
     # selections = ./dub.selections.nix;
-    version = "0.2.2";
+    version = "0.2.3";
     propagatedBuildInputs = [ pkgs.nix-prefetch-git ];
     meta = with pkgs.stdenv.lib; {
        homepage = "https://github.com/lionello/dub2nix";
