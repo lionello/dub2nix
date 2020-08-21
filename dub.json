@@ -1,6 +1,5 @@
 {
   "name": "dub2nix",
-  "mainSourceFile": "src/dub2nix.d",
   "authors": [
     "Lionello Lunesu"
   ],
@@ -8,7 +7,7 @@
     "vibe-d:data": "*"
   },
   "stringImportPaths": ["."],
-  "description": "Create Nix derivations for Dub packages",
+  "description": "Create Nix derivations for Dub package dependencies",
   "targetPath": "./bin/",
   "copyright": "Copyright © 2020, Lionello Lunesu",
   "license": "MIT",
