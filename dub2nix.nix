@@ -6,7 +6,7 @@ mkDubDerivation {
     src = pkgs.lib.cleanSource ./.;
     # dubJSON = ./dub.json;
     # selections = ./dub.selections.nix;
-    version = "0.2.3";
+    version = "0.2.4";
     # doCheck = true;
     propagatedBuildInputs = [ pkgs.nix-prefetch-git pkgs.cacert ];
     meta = with pkgs.stdenv.lib; {
