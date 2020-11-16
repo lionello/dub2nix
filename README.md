@@ -6,7 +6,7 @@ CLI tool to create Nix expressions for D-lang Dub projects.
 ## Installation
 Install with `nix-env`:
 ```sh
-nix-env -if https://github.com/lionello/dub2nix/archive/master.zip
+nix-env -if https://github.com/lionello/dub2nix/archive/master.tar.gz
 ```
 or add to your `shell.nix` and run `nix-shell`:
 ```nix
