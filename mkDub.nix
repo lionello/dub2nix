@@ -62,7 +62,7 @@ in {
     passthru ? {},
     package ? lib.importJSON dubJSON,
     ...
-  } @ attrs: stdenv.mkDerivation (attrs // {
+  } @ attrs: stdenv.mkDerivation ((removeAttrs attrs ["package" "deps" "selections" "dubJSON"]) // {
 
     pname = package.name;
 
