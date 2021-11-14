@@ -1,5 +1,6 @@
 { pkgs ? import <nixpkgs> {},
   stdenv ? pkgs.stdenv,
+  lib ? pkgs.lib,
   rdmd ? pkgs.rdmd,
   dmd ? pkgs.dmd,
   dub ? pkgs.dub }:
