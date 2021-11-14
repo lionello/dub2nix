@@ -9,7 +9,7 @@ mkDubDerivation {
     version = "0.2.4";
     # doCheck = true;
     propagatedBuildInputs = [ pkgs.nix-prefetch-git pkgs.cacert ];
-    meta = with pkgs.stdenv.lib; {
+    meta = with pkgs.lib; {
        homepage = "https://github.com/lionello/dub2nix";
        maintainers = [ maintainers.lionello ];
        license = licenses.mit;
