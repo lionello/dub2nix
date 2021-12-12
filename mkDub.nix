@@ -2,7 +2,8 @@
   stdenv ? pkgs.stdenv,
   lib ? pkgs.lib,
   rdmd ? pkgs.rdmd,
-  dcompiler ? pkgs.dmd,
+  dmd ? pkgs.dmd,
+  dcompiler ? dmd,
   dub ? pkgs.dub }:
 
 with stdenv;
