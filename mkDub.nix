@@ -2,7 +2,7 @@
   stdenv ? pkgs.stdenv,
   lib ? pkgs.lib,
   rdmd ? pkgs.rdmd,
-  dmd ? pkgs.dmd,
+  dcompiler ? pkgs.dmd,
   dub ? pkgs.dub }:
 
 with stdenv;
@@ -21,7 +21,7 @@ let
   fromDub = dubDep: mkDerivation rec {
     name = "${src.name}-${version}";
     version = rev-to-version dubDep.fetch.rev;
-    nativeBuildInputs = [ rdmd dmd dub ];
+    nativeBuildInputs = [ dcompiler rdmd dub ];
     src = dep2src dubDep;
 
     buildPhase = ''
@@ -47,7 +47,7 @@ let
   targetOf = package: "${package.targetPath or "."}/${package.targetName or package.name}";
 
   # Remove reference to build tools and library sources
-  disallowedReferences = deps: [ dmd rdmd dub ] ++ builtins.map dep2src deps;
+  disallowedReferences = deps: [ dcompiler rdmd dub ] ++ builtins.map dep2src deps;
 
   removeExpr = refs: ''remove-references-to ${lib.concatMapStrings (ref: " -t ${ref}") refs}'';
 
@@ -67,11 +67,11 @@ in {
 
     pname = package.name;
 
-    nativeBuildInputs = [ rdmd dmd dub pkgs.removeReferencesTo ] ++ nativeBuildInputs;
+    nativeBuildInputs = [ dcompiler rdmd dub pkgs.removeReferencesTo ] ++ nativeBuildInputs;
     disallowedReferences = disallowedReferences deps;
 
     passthru = passthru // {
-      inherit dub dmd rdmd pkgs;
+      inherit dub dcompiler rdmd pkgs;
     };
 
     src = lib.cleanSourceWith {
