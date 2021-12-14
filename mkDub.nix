@@ -52,6 +52,14 @@ let
 
   removeExpr = refs: ''remove-references-to ${lib.concatMapStrings (ref: " -t ${ref}") refs}'';
 
+  # Like split, but only keep the matches
+  matches = regex: str: builtins.filter lib.isList (builtins.split regex str);
+
+  # Very primitive parsing of SDL files, but suffices for name, description, homepage, etc.
+  importSDL = path: builtins.foldl' (a: l: a // {"${lib.elemAt l 1}"=lib.elemAt l 2;}) {} (matches "(^|\n)([a-z]+) \"([^\"]+)\"" (builtins.readFile path));
+
+  importPackage = sdl: json: if builtins.pathExists sdl then importSDL sdl else lib.importJSON json;
+
 in {
   inherit fromDub;
 
@@ -59,12 +67,13 @@ in {
     src,
     nativeBuildInputs ? [],
     dubJSON ? src + "/dub.json",
+    dubSDL ? src + "/dub.sdl",
     selections ? src + "/dub.selections.nix",
     deps ? import selections,
+    package ? importPackage dubSDL dubJSON,
     passthru ? {},
-    package ? lib.importJSON dubJSON,
     ...
-  } @ attrs: stdenv.mkDerivation ((removeAttrs attrs ["package" "deps" "selections" "dubJSON"]) // {
+  } @ attrs: stdenv.mkDerivation ((removeAttrs attrs ["package" "deps" "selections" "dubJSON" "dubSDL"]) // {
 
     pname = package.name;
 
@@ -115,6 +124,8 @@ in {
 
     meta = lib.optionalAttrs (package ? description) {
       description = package.description;
+    } // lib.optionalAttrs (package ? homepage) {
+      homepage = package.homepage;
     } // attrs.meta or {};
   } // lib.optionalAttrs (!(attrs ? version)) {
     # Use name from dub.json, unless pname and version are specified

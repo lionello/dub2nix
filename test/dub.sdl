@@ -1,0 +1,7 @@
+// dub.sdl can contain comments!
+name "myproject"
+description "A little web service of mine."
+authors "Peter Parker"
+homepage "http://myproject.example.com"
+license "GPL-2.0"
+dependency "vibe-d" version="~>0.7.23"
