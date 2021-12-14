@@ -27,5 +27,8 @@ jobs:
       with:
         nix_path: nixpkgs=channel:nixos-unstable
       
+    - name: Run Nix tests
+      run: nix-instantiate --eval "test"
+
     - name: Build in shell
       run: nix-shell --run "dub test"
