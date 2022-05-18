@@ -68,6 +68,8 @@ in {
     nativeBuildInputs ? [],
     dubJSON ? src + "/dub.json",
     dubSDL ? src + "/dub.sdl",
+    buildType ? "release",
+    extraDubFlags ? "",
     selections ? src + "/dub.selections.nix",
     deps ? import selections,
     package ? importPackage dubSDL dubJSON,
@@ -98,7 +100,7 @@ in {
 
       export HOME=$PWD
       ${lib.concatMapStringsSep "\n" dub-add-local deps}
-      dub build -b release --combined --skip-registry=all
+      dub build -b  ${buildType} --combined --skip-registry=all ${extraDubFlags}
 
       runHook postBuild
     '';
@@ -108,7 +110,7 @@ in {
 
       export HOME=$PWD
       ${lib.concatMapStringsSep "\n" dub-add-local deps}
-      dub test --combined --skip-registry=all
+      dub test --combined --skip-registry=all ${extraDubFlags}
 
       runHook postCheck
     '';
