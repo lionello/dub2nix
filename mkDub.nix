@@ -100,7 +100,7 @@ in {
 
       export HOME=$PWD
       ${lib.concatMapStringsSep "\n" dub-add-local deps}
-      dub build -b  ${buildType} --combined --skip-registry=all ${extraDubFlags}
+      dub build -b ${buildType} --combined --skip-registry=all ${extraDubFlags}
 
       runHook postBuild
     '';
