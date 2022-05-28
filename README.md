@@ -18,7 +18,7 @@ let
   dub2nix = (import dub2nix-src) { inherit pkgs; };
 in mkShell {
   buildInputs = [
-    dub2nix # dub dmd rdmd ldc etc..
+    dub2nix # dub dmd dtools ldc etc..
   ];
 }
 ```

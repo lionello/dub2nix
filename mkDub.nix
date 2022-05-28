@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {},
   stdenv ? pkgs.stdenv,
   lib ? pkgs.lib,
-  rdmd ? pkgs.rdmd,
+  dtools ? pkgs.dtools or pkgs.rdmd,
   dmd ? pkgs.dmd,
   dcompiler ? dmd,
   dub ? pkgs.dub }:
@@ -22,7 +22,7 @@ let
   fromDub = dubDep: mkDerivation rec {
     name = "${src.name}-${version}";
     version = rev-to-version dubDep.fetch.rev;
-    nativeBuildInputs = [ dcompiler rdmd dub ];
+    nativeBuildInputs = [ dcompiler dtools dub ];
     src = dep2src dubDep;
 
     buildPhase = ''
@@ -48,7 +48,7 @@ let
   targetOf = package: "${package.targetPath or "."}/${package.targetName or package.name}";
 
   # Remove reference to build tools and library sources
-  disallowedReferences = deps: [ dcompiler rdmd dub ] ++ builtins.map dep2src deps;
+  disallowedReferences = deps: [ dcompiler dtools dub ] ++ builtins.map dep2src deps;
 
   removeExpr = refs: ''remove-references-to ${lib.concatMapStrings (ref: " -t ${ref}") refs}'';
 
@@ -77,11 +77,11 @@ in {
 
     pname = package.name;
 
-    nativeBuildInputs = [ dcompiler rdmd dub pkgs.removeReferencesTo ] ++ nativeBuildInputs;
+    nativeBuildInputs = [ dcompiler dtools dub pkgs.removeReferencesTo ] ++ nativeBuildInputs;
     disallowedReferences = disallowedReferences deps;
 
     passthru = passthru // {
-      inherit dub dcompiler rdmd pkgs;
+      inherit dub dcompiler dtools pkgs;
     };
 
     src = lib.cleanSourceWith {
