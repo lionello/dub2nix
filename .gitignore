@@ -3,3 +3,4 @@ dub2nix
 /result
 /bin
 .envrc
+.direnv/
