@@ -6,9 +6,12 @@ mkDubDerivation {
     src = pkgs.lib.cleanSource ./.;
     # dubJSON = ./dub.json;
     # selections = ./dub.selections.nix;
-    version = "0.2.6";
+    version = "0.2.7";
     # doCheck = true;
-    propagatedBuildInputs = [ pkgs.nix-prefetch-git pkgs.cacert ];
+    buildInputs = [ pkgs.makeWrapper pkgs.cacert ];
+    postFixup = ''
+        wrapProgram $out/bin/dub2nix --prefix PATH : ${pkgs.nix-prefetch-git}/bin
+    '';
     meta = with pkgs.lib; {
        homepage = "https://github.com/lionello/dub2nix";
        maintainers = [ maintainers.lionello ];
