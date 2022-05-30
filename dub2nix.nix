@@ -8,7 +8,7 @@ mkDubDerivation {
     # selections = ./dub.selections.nix;
     version = "0.2.7";
     # doCheck = true;
-    buildInputs = [ pkgs.makeWrapper pkgs.cacert ];
+    buildInputs = [ pkgs.makeWrapper pkgs.cacert pkgs.nix-prefetch-git ];
     postFixup = ''
         wrapProgram $out/bin/dub2nix --prefix PATH : ${pkgs.nix-prefetch-git}/bin
     '';
