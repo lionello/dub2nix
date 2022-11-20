@@ -103,7 +103,9 @@ struct NixPrefetchGit {
 /// Invoke nix-prefetch-git and return the parsed JSON
 auto nixPrefetchGit(string url, string rev) @safe {
     import std.process : executeShell, Config;
+    debug import std.stdio : writeln;
     const cmd = "nix-prefetch-git --quiet " ~ url ~ " " ~ rev;
+    debug writeln("#", cmd);
     return deserializeJson!NixPrefetchGit(
         executeShell(cmd, null, Config.stderrPassThrough).output
     );
@@ -125,6 +127,9 @@ auto resolveDependency(string pname, string ver) @safe {
 auto prefetch(string pname, DubDependency dep) @safe {
     if (dep.repository is null) {
         dep = resolveDependency(pname, dep.version_);
+    }
+    if (dep.repository.startsWith("git+")) {
+        dep.repository = dep.repository[4..$];
     }
     auto set = nixPrefetchGit(dep.repository, dep.version_);
     // Overwrite the sha1 ref with the tag instead, so we have the version info as well
