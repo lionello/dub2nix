@@ -5,6 +5,7 @@
     dependency "vibe-d:data" version="*"
 +/
 import vibe.data.json, std.string;
+import std.exception : enforce;
 
 enum mkDubNix = import("./mkDub.nix");
 enum VERSION = "0.2.7";
@@ -15,8 +16,22 @@ unittest {
 }
 
 struct DubSelections {
-    int fileVersion;
+    uint fileVersion;
     string[string] versions;
+}
+
+unittest {
+    const selections = deserializeJson!DubSelections(`{
+	"fileVersion": 1,
+	"versions": {
+        "dub": "1.2.1",
+        "vibe-d": "0.8.3-beta.1"
+	}
+}`);
+    assert(selections.fileVersion == 1);
+    assert(selections.versions.length == 2);
+    assert(selections.versions["dub"] == "1.2.1");
+    assert(selections.versions["vibe-d"] == "0.8.3-beta.1");
 }
 
 struct DubRepo {
@@ -86,7 +101,7 @@ struct DubDep {
 /// Fetch the repo information for package `pname` and version `ver`
 auto prefetch(string pname, string ver) @safe {
     const repo = findRepo(pname);
-    assert(repo.kind == "github");
+    enforce(repo.kind == "github", "Only github repos are supported");
     const url = "https://" ~ repo.kind ~ ".com/" ~ repo.owner ~ '/' ~ repo.project ~ ".git";
     const tag = "v" ~ ver;
     auto set = nixPrefetchGit(url, tag);
@@ -178,7 +193,7 @@ auto createNixDeps(string selectionsJson) {
     import std.stdio : writeln;
 
     const selections = deserializeJson!DubSelections(selectionsJson);
-    assert(selections.fileVersion == 1);
+    enforce(selections.fileVersion == 1, "Only fileVersion 1 is supported");
 
     static auto progress(Tuple)(in Tuple pair) {
         writeln("# Prefetching ", pair.key, "-", pair.value);
