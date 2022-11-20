@@ -230,7 +230,7 @@ auto createNixDeps(string selectionsJson) {
 unittest {
     enum json = import("./dub.selections.json");
     enum expected = import("./dub.selections.nix");
-    enum actual = createNixDeps(json);
+    immutable actual = createNixDeps(json);
     assert(actual == expected, actual);
 }
 
