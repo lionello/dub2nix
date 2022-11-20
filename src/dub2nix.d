@@ -114,12 +114,17 @@ struct DubDep {
 }
 
 /// Fetch the repo information for package `pname` and version `ver`
+auto resolveDependency(string pname, string ver) @safe {
+    const repo = findRepo(pname);
+    enforce(repo.kind == "github", "Only github repos are supported, got " ~ repo.kind);
+    const url = "https://" ~ repo.kind ~ ".com/" ~ repo.owner ~ '/' ~ repo.project ~ ".git";
+    return DubDependency("v" ~ ver, url);
+}
+
+/// Nix-prefetch the specified dependency
 auto prefetch(string pname, DubDependency dep) @safe {
     if (dep.repository is null) {
-        const repo = findRepo(pname);
-        enforce(repo.kind == "github", "Only github repos are supported");
-        dep.repository = "https://" ~ repo.kind ~ ".com/" ~ repo.owner ~ '/' ~ repo.project ~ ".git";
-        dep.version_ = "v" ~ dep.version_;
+        dep = resolveDependency(pname, dep.version_);
     }
     auto set = nixPrefetchGit(dep.repository, dep.version_);
     // Overwrite the sha1 ref with the tag instead, so we have the version info as well
