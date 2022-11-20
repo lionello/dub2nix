@@ -19,7 +19,7 @@ struct DubDependency {
     string version_;
     string repository;
 
-    static DubDependency fromJson(Json json) {
+    static DubDependency fromJson(Json json) @safe {
         if (json.type == Json.Type.string)
             return DubDependency(json.get!string, null);
         else {
@@ -217,9 +217,10 @@ auto createNixDeps(string selectionsJson) {
     const selections = deserializeJson!DubSelections(selectionsJson);
     enforce(selections.fileVersion == 1, "Only fileVersion 1 is supported");
 
-    static auto progress(Tuple)(in Tuple pair) {
-        writeln("# Prefetching ", pair.key, "-", pair.value);
-        return prefetch(pair.key, DubDependency.fromJson(pair.value));
+    static auto progress(Tuple)(in Tuple pair) @safe {
+        auto dep = DubDependency.fromJson(pair.value);
+        writeln("# Prefetching ", pair.key, "-", dep.version_);
+        return prefetch(pair.key, dep);
     }
 
     // Fetch all dependency information in parallel
