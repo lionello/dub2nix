@@ -249,13 +249,14 @@ int main(string[] args) {
     import std.getopt: getopt, defaultGetoptPrinter;
 
     bool showVersion;
-    string input = "./dub.selections.json", deps = "./dub.selections.nix", output;
+    string input = "./dub.selections.json", deps = "./dub.selections.nix", path = ".", output;
     auto result = getopt(args,
         "input|i|in", "Path of selections JSON; defaults to " ~ input, &input,
         "output|o|out", "Output Nix file for Dub project.", &output,
         "registry|r", "URL to Dub package registry; default " ~ packageRegistry, &packageRegistry,
         "deps-file|d", "Output Nix file with dependencies; defaults to " ~ deps, &deps,
-        "version", "Show version information.", &showVersion);
+        "version", "Show version information.", &showVersion,
+        "C", "Run as if dub2nix was started in <path>", &path);
 
     if (showVersion) {
         writeln(VERSION);
@@ -273,6 +274,9 @@ Options:`, result.options);
     }
 
     try {
+        import std.file : chdir;
+        chdir(path);
+
         const nix = createNixDeps(readText(input));
         if (deps == "-") {
             writeln(nix);
