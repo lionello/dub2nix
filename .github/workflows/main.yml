@@ -32,3 +32,6 @@ jobs:
 
     - name: Build in shell
       run: nix-shell --pure --run "dub test"
+
+    - name: Run tests
+      run: nix-shell --pure --run "dub -- -C test save"

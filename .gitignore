@@ -1,6 +1,6 @@
 dub2nix
-/.dub/
+.dub/
 /result
-/bin
+bin/
 .envrc
 .direnv/
