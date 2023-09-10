@@ -2,6 +2,7 @@
 	"fileVersion": 1,
 	"versions": {
 		"dub2nix": {"version":"922cff43","repository":"git+https://github.com/lionello/dub2nix.git"},
+		"silly": "1.1.1",
 		"stdx-allocator": "2.77.5",
 		"vibe-d": "0.9.5"
 	}
