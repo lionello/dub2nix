@@ -11,6 +11,7 @@ in mkShell {
 
   nativeBuildInputs = [
     # additional dev dependencies go here
+    coreutils # fix for mktemp: illegal option -- -
   ] ++ pkg.nativeBuildInputs;
 
 }

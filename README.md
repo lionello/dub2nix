@@ -29,7 +29,7 @@ Do `git clone` and `nix-shell` to build with `dub`:
 nix-shell
 dub
 ```
-Alternatively, use `direnv`:
+Alternatively, use [`direnv`](https://direnv.net):
 ```sh
 echo use nix >> .envrc
 direnv allow
