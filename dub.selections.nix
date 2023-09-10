@@ -3,13 +3,13 @@
   fetch = {
     type = "git";
     url = "https://github.com/vibe-d/vibe.d.git";
-    rev = "v0.9.5";
-    sha256 = "1cf8psyfxh7053wwcjm3jm9avyph6dkx7c4fahi0gr1lrflpvpcb";
+    rev = "v0.9.7";
+    sha256 = "1q4yvcaf36lmf29izg01x888v40snpwiph310nrlpr4gyhd834av";
     fetchSubmodules = false;
-    date = "2022-07-18T17:27:21+02:00";
+    date = "2023-08-29T13:24:09+02:00";
     deepClone = false;
     leaveDotGit = false;
-    path = "/nix/store/dx5wdsw6rrwxrhg1vqx1a1p7jq89rz5g-vibe.d";
+    path = "/nix/store/7fq089i7zib7m9hxyl75mlfy264d9gnx-vibe.d";
   };
 } {
   fetch = {
