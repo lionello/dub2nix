@@ -69,6 +69,7 @@ in {
     dubJSON ? src + "/dub.json",
     dubSDL ? src + "/dub.sdl",
     buildType ? "release",
+    dubFlags ? "--combined",
     extraDubFlags ? "",
     selections ? src + "/dub.selections.nix",
     deps ? import selections,
@@ -100,7 +101,7 @@ in {
 
       export HOME=$PWD
       ${lib.concatMapStringsSep "\n" dub-add-local deps}
-      dub build -b ${buildType} --combined --skip-registry=all ${extraDubFlags}
+      dub build -b ${buildType} ${dubFlags} --skip-registry=all ${extraDubFlags}
 
       runHook postBuild
     '';
@@ -110,7 +111,7 @@ in {
 
       export HOME=$PWD
       ${lib.concatMapStringsSep "\n" dub-add-local deps}
-      dub test --combined --skip-registry=all ${extraDubFlags}
+      dub test ${dubFlags} --skip-registry=all ${extraDubFlags}
 
       runHook postCheck
     '';
