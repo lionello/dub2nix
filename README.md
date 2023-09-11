@@ -36,6 +36,15 @@ direnv allow
 dub
 ```
 
+### Test
+
+To run the tests, do:
+```
+nix-instantiate --eval "test"
+```
+
+This should evaluate to `true`.
+
 ## Usage
 ```
 Usage: dub2nix [OPTIONS] COMMAND
